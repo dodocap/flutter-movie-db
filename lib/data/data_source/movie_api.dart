@@ -11,7 +11,7 @@ class MovieApi {
   static const _movieDetailUrlPrefix = 'https://api.themoviedb.org/3/movie/';
   static const _movieDetailUrlSuffix = '?api_key=a64533e7ece6c72731da47c9c8bc691f&language=ko-KR';
 
-  Future<Result<MovieDto>> getMovies({int page = 1}) async {
+  Future<Result<MovieDto>> getMovies(int page) async {
     Result<MovieDto> result;
 
     try {
