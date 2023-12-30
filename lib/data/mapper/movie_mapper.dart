@@ -17,7 +17,6 @@ extension ResultMapperMovie on Results {
       title: title ?? '',
       overview: overview ?? '',
       posterPath: posterPath ?? '',
-      releaseDate: releaseDate ?? '',
     );
   }
 }

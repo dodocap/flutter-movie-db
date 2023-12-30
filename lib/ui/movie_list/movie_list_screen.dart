@@ -1,7 +1,10 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
+import 'package:orm_movie_db/common/constants.dart';
 import 'package:orm_movie_db/common/result.dart';
 import 'package:orm_movie_db/data/model/movie_info.dart';
 import 'package:orm_movie_db/ui/movie_list/movie_list_view_model.dart';
+import 'package:shimmer/shimmer.dart';
 
 class MovieListScreen extends StatefulWidget {
   const MovieListScreen({super.key});
@@ -66,23 +69,12 @@ class _MovieListScreenState extends State<MovieListScreen> {
             itemCount: movieList.length,
             itemBuilder: (context, index) {
               final Movie movie = movieList[index];
-              return ListTile(
-                title: Text(movie.title),
-                subtitle: Text(
-                  movie.overview,
-                  maxLines: 1,
-                  style: const TextStyle(overflow: TextOverflow.ellipsis),
-                ),
-                trailing: const Icon(Icons.navigate_next),
-                onTap: () {
-                  // TODO Next Screen
-                },
-              );
+              return _movieWidget(movie);
             },
           ),
         ),
         Padding(
-            padding: const EdgeInsets.only(top: 16, bottom: 32, left: 20, right: 20),
+            padding: const EdgeInsets.only(top: 16, bottom: 32),
             child: _buildPageButtonBar(
               currentPage: movieInfo.page,
               totalPages: movieInfo.totalPages,
@@ -94,6 +86,55 @@ class _MovieListScreenState extends State<MovieListScreen> {
               },
             )),
       ],
+    );
+  }
+
+  Widget _movieWidget(Movie movie) {
+    return Padding(
+      padding: const EdgeInsets.all(8.0),
+      child: InkWell(
+        onTap: () {},
+        child: Row(
+          children: [
+            ClipRRect(
+              borderRadius: BorderRadius.circular(15.0),
+              child: CachedNetworkImage(
+                imageUrl: 'https://image.tmdb.org/t/p/w200${movie.posterPath}',
+                fit: BoxFit.cover,
+                width: 100,
+                height: 150,
+                placeholder: (_, __) => const Center(child: CircularProgressIndicator()),
+                errorWidget: (_, __, ___) => const Center(
+                  child: Text(
+                    errorNotFoundImage,
+                    textAlign: TextAlign.center,
+                  ),
+                ),
+              ),
+            ),
+            Expanded(
+              child: Padding(
+                padding: const EdgeInsets.only(left: 16.0, right: 16),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                  children: [
+                    Text(
+                      '${movie.title}',
+                      style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
+                    ),
+                    Text(
+                      '${movie.overview}',
+                      maxLines: 4,
+                      style: const TextStyle(overflow: TextOverflow.ellipsis),
+                    )
+                  ],
+                ),
+              ),
+            ),
+          ],
+        ),
+      ),
     );
   }
 
