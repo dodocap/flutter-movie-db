@@ -11,20 +11,19 @@ class MovieApi {
   static const _movieDetailUrlPrefix = 'https://api.themoviedb.org/3/movie/';
   static const _movieDetailUrlSuffix = '?api_key=a64533e7ece6c72731da47c9c8bc691f&language=ko-KR';
 
-  Future<Result<List<MovieDto>>> getMovies({int page = 1}) async {
-    Result<List<MovieDto>> result;
+  Future<Result<MovieDto>> getMovies({int page = 1}) async {
+    Result<MovieDto> result;
 
     try {
       final http.Response response = await http.get(Uri.parse('$_movieMainUrl$page'));
       if (response.statusCode == 200) {
-        final List<MovieDto> movieDtoList = (jsonDecode(response.body)['results'] as List<dynamic>).map((e) => MovieDto.fromJson(e)).toList();
-
-        result = Success(movieDtoList);
+        final MovieDto movieDto = MovieDto.fromJson(jsonDecode(response.body));
+        result = Result.success(movieDto);
       } else {
-        result = Error('$errorNetwork: ErrorCode(${response.statusCode})');
+        result = Result.error('$errorNetwork: ErrorCode(${response.statusCode})');
       }
     } catch (e) {
-      result = Error('$errorNetwork\n$e');
+      result = Result.error('$errorNetwork\n$e');
     }
     return result;
   }
@@ -37,12 +36,12 @@ class MovieApi {
       if (response.statusCode == 200) {
         final MovieDetailDto movieDetailDto = MovieDetailDto.fromJson(jsonDecode(response.body));
 
-        result = Success(movieDetailDto);
+        result = Result.success(movieDetailDto);
       } else {
-        result = Error('$errorNetwork: ErrorCode(${response.statusCode})');
+        result = Result.error('$errorNetwork: ErrorCode(${response.statusCode})');
       }
     } catch (e) {
-      result = Error('$errorNetwork\n$e');
+      result = Result.error('$errorNetwork\n$e');
     }
     return result;
   }
