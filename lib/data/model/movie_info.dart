@@ -1,11 +1,14 @@
 class MovieInfo {
+  int totalPages;
   int page;
   List<Movie> movieList;
 
-  MovieInfo({
+  /*MovieInfo({
     required this.page,
     required this.movieList,
-  });
+  });*/
+
+  MovieInfo({this.totalPages = 0, this.page = 0, this.movieList = const []});
 
   @override
   String toString() {

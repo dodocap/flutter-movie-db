@@ -9,7 +9,7 @@ class MovieRepositoryImpl implements MovieRepository {
   final MovieApi _movieApi = MovieApi();
 
   @override
-  Future<Result<MovieInfo>> getMovies({int page = 1}) async {
+  Future<Result<MovieInfo>> getMovies(int page) async {
     Result<MovieInfo> result;
 
     Result<MovieDto> dtoResult = await _movieApi.getMovies(page);

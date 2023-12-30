@@ -4,6 +4,7 @@ import 'package:orm_movie_db/data/model/movie_info.dart';
 extension MovieDtoMapperMovieInfo on MovieDto {
   MovieInfo mapToMovieInfo() {
     return MovieInfo(
+      totalPages: totalPages?.toInt() ?? 0,
       page: page?.toInt() ?? 0,
       movieList: results?.map((e) => e._mapToMovie()).toList() ?? [],
     );
