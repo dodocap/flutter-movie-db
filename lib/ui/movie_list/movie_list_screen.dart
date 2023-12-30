@@ -4,7 +4,6 @@ import 'package:orm_movie_db/common/constants.dart';
 import 'package:orm_movie_db/common/result.dart';
 import 'package:orm_movie_db/data/model/movie_info.dart';
 import 'package:orm_movie_db/ui/movie_list/movie_list_view_model.dart';
-import 'package:shimmer/shimmer.dart';
 
 class MovieListScreen extends StatefulWidget {
   const MovieListScreen({super.key});
