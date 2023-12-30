@@ -1,0 +1,1 @@
+const String errorNetwork = '네트워크 통신에 실패했습니다';
