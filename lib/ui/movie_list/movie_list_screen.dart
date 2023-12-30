@@ -1,5 +1,6 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 import 'package:orm_movie_db/common/constants.dart';
 import 'package:orm_movie_db/common/result.dart';
 import 'package:orm_movie_db/data/model/movie_info.dart';
@@ -92,7 +93,7 @@ class _MovieListScreenState extends State<MovieListScreen> {
     return Padding(
       padding: const EdgeInsets.all(8.0),
       child: InkWell(
-        onTap: () {},
+        onTap: () => context.push(Uri(path: '/movie/detail', queryParameters: {'id': movie.id.toString()}).toString()),
         child: Row(
           children: [
             ClipRRect(
@@ -113,19 +114,22 @@ class _MovieListScreenState extends State<MovieListScreen> {
             ),
             Expanded(
               child: Padding(
-                padding: const EdgeInsets.only(left: 16.0, right: 16),
+                padding: const EdgeInsets.symmetric(horizontal: 16.0),
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                   children: [
                     Text(
-                      '${movie.title}',
-                      style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
+                      movie.title,
+                      style: const TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
                     ),
-                    Text(
-                      '${movie.overview}',
-                      maxLines: 4,
-                      style: const TextStyle(overflow: TextOverflow.ellipsis),
+                    Visibility(
+                      visible: movie.overview.isNotEmpty,
+                      child: Text(
+                        movie.overview,
+                        maxLines: 4,
+                        style: const TextStyle(overflow: TextOverflow.ellipsis),
+                      ),
                     )
                   ],
                 ),

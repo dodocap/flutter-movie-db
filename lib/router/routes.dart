@@ -7,11 +7,13 @@ final routes = GoRouter(
   routes: [
     GoRoute(
       path: '/movie',
-      builder: (_, __) => MovieListScreen(),
+      builder: (_, __) => const MovieListScreen(),
       routes: [
         GoRoute(
           path: 'detail',
-          builder: (_, state) => MovieDetailScreen(),
+          builder: (_, state) {
+            return MovieDetailScreen(id: state.uri.queryParameters['id']!);
+          },
         )
       ]
     ),
