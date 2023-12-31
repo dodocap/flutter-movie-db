@@ -63,10 +63,16 @@ class _MovieDetailScreenState extends State<MovieDetailScreen> {
           automaticallyImplyLeading: false,
           leading: InkWell(
             onTap: context.pop,
-            borderRadius: BorderRadius.circular(50),
-            child: const Icon(
-              Icons.arrow_back_ios_new,
-              color: Colors.black,
+            borderRadius: BorderRadius.circular(50.0),
+            child: Container(
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(50.0),
+                color: Colors.white10
+              ),
+              child: const Icon(
+                Icons.arrow_back_ios_new,
+                color: Colors.black,
+              ),
             ),
           ),
           flexibleSpace: FlexibleSpaceBar(
@@ -106,18 +112,27 @@ class _MovieDetailScreenState extends State<MovieDetailScreen> {
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                Chip(label: Text(movieDetail.status)),
+                Chip(
+                  label: Text(
+                    movieDetail.screenInfo.title,
+                    style: TextStyle(color: movieDetail.screenInfo.fontColor, fontWeight: FontWeight.bold),
+                  ),
+                  backgroundColor: movieDetail.screenInfo.backgroundColor,
+                ),
+                const SizedBox(height: 8),
                 Text(
                   movieDetail.originalTitle,
                   textAlign: TextAlign.center,
-                  style: const TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
+                  style: const TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
                 ),
-                const SizedBox(height: 5),
+                const SizedBox(height: 8),
                 Text(
                   '개봉: ${movieDetail.releaseDate}',
-                  style: const TextStyle(fontSize: 16),
+                  style: const TextStyle(fontSize: 18),
                 ),
+                const SizedBox(height: 8),
                 Row(
+                  mainAxisSize: MainAxisSize.max,
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: List.generate(
                     movieDetail.genres.length + 1,
@@ -126,17 +141,13 @@ class _MovieDetailScreenState extends State<MovieDetailScreen> {
                     },
                   ),
                 ),
+                const SizedBox(height: 32),
+                Text(
+                  movieDetail.overview,
+                  textAlign: TextAlign.justify,
+                  style: const TextStyle(fontSize: 17),
+                ),
               ],
-            ),
-          ),
-        ),
-        SliverToBoxAdapter(
-          child: Padding(
-            padding: const EdgeInsets.all(16.0),
-            child: Text(
-              movieDetail.overview,
-              textAlign: TextAlign.center,
-              style: const TextStyle(fontSize: 16),
             ),
           ),
         ),
