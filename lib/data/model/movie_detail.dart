@@ -8,6 +8,7 @@ class MovieDetail {
   String releaseDate;
   ScreenInfo screenInfo;
   double voteAverage;
+  double voteAverageByRatingBar;
   String runtime;
   List<String> genres;
   bool adult;
@@ -20,6 +21,7 @@ class MovieDetail {
     required this.releaseDate,
     required this.screenInfo,
     required this.voteAverage,
+    required this.voteAverageByRatingBar,
     required this.runtime,
     required this.genres,
     required this.adult,

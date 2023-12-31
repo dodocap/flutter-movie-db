@@ -12,33 +12,10 @@ extension MovieDetailDtoMapperMovieDetail on MovieDetailDto {
       releaseDate: releaseDate ?? '',
       screenInfo: ScreenInfo.getByString(status ?? 'none'),
       voteAverage: voteAverage != null ? (voteAverage!.toDouble() * 10).round() / 10 : -1,
+      voteAverageByRatingBar: _calculateRatingAverage(voteAverage),
       runtime: _covertRuntime(runtime),
       genres: genres?.map((e) => e.name ?? '').toList() ?? [],
       adult: adult ?? false,
-      /*
-      belongsToCollection: belongsToCollection,
-      budget: budget,
-      genres: genres,
-      homepage: homepage,
-      id: id,
-      imdbId: imdbId,
-      originalLanguage: originalLanguage,
-      originalTitle: originalTitle,
-      overview: overview,
-      popularity: popularity,
-      posterPath: posterPath,
-      productionCompanies: productionCompanies,
-      productionCountries: productionCountries,
-      releaseDate: releaseDate,
-      revenue: revenue,
-      runtime: runtime,
-      spokenLanguages: spokenLanguages,
-      status: status,
-      tagline: tagline,
-      title: title,
-      video: video,
-      voteAverage: voteAverage,
-      voteCount: voteCount,*/
     );
   }
 
@@ -58,5 +35,25 @@ extension MovieDetailDtoMapperMovieDetail on MovieDetailDto {
     } else {
       return '$minutes분';
     }
+  }
+
+  double _calculateRatingAverage(num? value) {
+    if (value == null || value == 0) {
+      return 0;
+    }
+
+    double floorValue = value.floorToDouble();
+    double decimalPart = value - floorValue;
+
+    double ratingBarValue;
+
+    if (decimalPart >= 0.0 && decimalPart <= 0.4) {
+      ratingBarValue = floorValue.toDouble();
+    } else if (decimalPart >= 0.5 && decimalPart <= 0.9) {
+      ratingBarValue = floorValue + 0.5;
+    } else {
+      ratingBarValue = floorValue;
+    }
+    return ratingBarValue / 2;
   }
 }

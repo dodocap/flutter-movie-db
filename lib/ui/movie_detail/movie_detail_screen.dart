@@ -103,10 +103,6 @@ class _MovieDetailScreenState extends State<MovieDetailScreen> {
             ),
           ),
         ),
-        // TODO 추가정보
-        // runtime : 124분
-        // belongs_to_collection 관련작품
-        // spoken_languages 언어
         SliverToBoxAdapter(
           child: Padding(
             padding: const EdgeInsets.only(left: 16.0, right: 16.0, bottom: 16.0),
@@ -138,7 +134,7 @@ class _MovieDetailScreenState extends State<MovieDetailScreen> {
                 ? Column(
                   children: [
                     RatingBar.builder(
-                      initialRating: _customFloor(movieDetail.voteAverage) / 2,
+                      initialRating: movieDetail.voteAverageByRatingBar,
                       minRating: 0,
                       direction: Axis.horizontal,
                       maxRating: 5,
@@ -181,26 +177,12 @@ class _MovieDetailScreenState extends State<MovieDetailScreen> {
                   textAlign: TextAlign.justify,
                   style: const TextStyle(fontSize: 17),
                 ),
+                const SizedBox(height: 32)
               ],
             ),
           ),
         ),
       ],
     );
-  }
-  double _customFloor(double value) {
-    double floorValue = value.floorToDouble();
-    double decimalPart = value - floorValue;
-
-    double ratingBarValue;
-
-    if (decimalPart >= 0.0 && decimalPart <= 0.4) {
-      ratingBarValue = floorValue.toDouble();
-    } else if (decimalPart >= 0.5 && decimalPart <= 0.9) {
-      ratingBarValue = floorValue + 0.5;
-    } else {
-      ratingBarValue = value;
-    }
-    return ratingBarValue;
   }
 }
