@@ -32,11 +32,6 @@ enum ScreenInfo {
     return ScreenInfo.values.firstWhere((e) => e.name == status);
   }
 }
-const statusMap = {
-  'Released' : '상영중',
-  'Post Production' : '포스트 프로덕션',
-  'In Production' : '제작중'
-};
 
 /* 라우터 쿼리 파라미터 정보 (prefix : qp) */
 const qpMovieId = 'movieId';

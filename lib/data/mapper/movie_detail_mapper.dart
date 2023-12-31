@@ -11,6 +11,8 @@ extension MovieDetailDtoMapperMovieDetail on MovieDetailDto {
       backdropPath: backdropPath != null ? '$imagePathLarge$backdropPath' : '',
       releaseDate: releaseDate ?? '',
       screenInfo: ScreenInfo.getByString(status ?? 'none'),
+      voteAverage: voteAverage != null ? (voteAverage!.toDouble() * 10).round() / 10 : -1,
+      runtime: _covertRuntime(runtime),
       genres: genres?.map((e) => e.name ?? '').toList() ?? [],
       adult: adult ?? false,
       /*
@@ -38,5 +40,23 @@ extension MovieDetailDtoMapperMovieDetail on MovieDetailDto {
       voteAverage: voteAverage,
       voteCount: voteCount,*/
     );
+  }
+
+  String _covertRuntime(num? runtime) {
+    if (runtime == null || runtime == 0) {
+      return "상영시간 정보 없음";
+    }
+
+    int time = runtime.toInt();
+    int hours = time ~/ 60;
+    int minutes = time % 60;
+
+    if (hours > 0 && minutes > 0) {
+      return '$hours시간 $minutes분';
+    } else if (hours > 0) {
+      return '$hours시간';
+    } else {
+      return '$minutes분';
+    }
   }
 }

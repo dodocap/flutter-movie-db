@@ -1,5 +1,6 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:go_router/go_router.dart';
 import 'package:orm_movie_db/common/constants.dart';
 import 'package:orm_movie_db/common/result.dart';
@@ -67,7 +68,7 @@ class _MovieDetailScreenState extends State<MovieDetailScreen> {
             child: Container(
               decoration: BoxDecoration(
                 borderRadius: BorderRadius.circular(50.0),
-                color: Colors.white10
+                color: Colors.white24
               ),
               child: const Icon(
                 Icons.arrow_back_ios_new,
@@ -125,11 +126,32 @@ class _MovieDetailScreenState extends State<MovieDetailScreen> {
                   textAlign: TextAlign.center,
                   style: const TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
                 ),
+                const SizedBox(height: 4),
+                Text(movieDetail.runtime, style: const TextStyle(fontSize: 18),),
                 const SizedBox(height: 8),
                 Text(
                   '개봉: ${movieDetail.releaseDate}',
                   style: const TextStyle(fontSize: 18),
                 ),
+                const SizedBox(height: 8),
+                movieDetail.voteAverage > 0
+                ? Column(
+                  children: [
+                    RatingBar.builder(
+                      initialRating: _customFloor(movieDetail.voteAverage) / 2,
+                      minRating: 0,
+                      direction: Axis.horizontal,
+                      maxRating: 5,
+                      allowHalfRating: true,
+                      ignoreGestures: true,
+                      itemCount: 5,
+                      itemBuilder: (_, __) => const Icon(Icons.star, color: Colors.amber),
+                      onRatingUpdate: (rating) { },
+                    ),
+                    Text('평점: ${movieDetail.voteAverage}'),
+                  ],
+                )
+                : const Text('평점 정보 없음', style: TextStyle(fontSize: 18),),
                 const SizedBox(height: 8),
                 Row(
                   mainAxisSize: MainAxisSize.max,
@@ -137,7 +159,19 @@ class _MovieDetailScreenState extends State<MovieDetailScreen> {
                   children: List.generate(
                     movieDetail.genres.length + 1,
                     (index) {
-                      return Text(index != 0 ? '${movieDetail.genres[index-1]} ' : '장르: ');
+                      if (movieDetail.genres.isEmpty) {
+                        return const Text('장르 정보 없음');
+                      }
+
+                      String text;
+                      if (index == 0) {
+                        text = '장르 : ';
+                      } else if (index == movieDetail.genres.length) {
+                        text = '[${movieDetail.genres[index-1]}]';
+                      } else {
+                        text = '[${movieDetail.genres[index-1]}] ';
+                      }
+                      return Text(text);
                     },
                   ),
                 ),
@@ -153,5 +187,20 @@ class _MovieDetailScreenState extends State<MovieDetailScreen> {
         ),
       ],
     );
+  }
+  double _customFloor(double value) {
+    double floorValue = value.floorToDouble();
+    double decimalPart = value - floorValue;
+
+    double ratingBarValue;
+
+    if (decimalPart >= 0.0 && decimalPart <= 0.4) {
+      ratingBarValue = floorValue.toDouble();
+    } else if (decimalPart >= 0.5 && decimalPart <= 0.9) {
+      ratingBarValue = floorValue + 0.5;
+    } else {
+      ratingBarValue = value;
+    }
+    return ratingBarValue;
   }
 }

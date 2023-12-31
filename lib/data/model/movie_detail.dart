@@ -7,6 +7,8 @@ class MovieDetail {
   String backdropPath;
   String releaseDate;
   ScreenInfo screenInfo;
+  double voteAverage;
+  String runtime;
   List<String> genres;
   bool adult;
 
@@ -17,12 +19,9 @@ class MovieDetail {
     required this.backdropPath,
     required this.releaseDate,
     required this.screenInfo,
+    required this.voteAverage,
+    required this.runtime,
     required this.genres,
     required this.adult,
   });
-
-  @override
-  String toString() {
-    return 'MovieDetail{title: $title, originalTitle: $originalTitle, overview: $overview, backdropPath: $backdropPath, releaseDate: $releaseDate, screenInfo: $screenInfo, genres: $genres, adult: $adult}';
-  }
 }

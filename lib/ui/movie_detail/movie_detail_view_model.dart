@@ -21,9 +21,7 @@ class MovieDetailViewModel {
     _isLoading.add(false);
 
     switch (_movies) {
-
       case Success<MovieDetail>(:final data):
-        print(data);
         break;
       case Error<MovieDetail>():
         break;
