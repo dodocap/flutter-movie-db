@@ -4,6 +4,7 @@ import 'package:go_router/go_router.dart';
 import 'package:orm_movie_db/common/constants.dart';
 import 'package:orm_movie_db/common/result.dart';
 import 'package:orm_movie_db/data/model/movie_info.dart';
+import 'package:orm_movie_db/ui/common/error_screen_widget.dart';
 import 'package:orm_movie_db/ui/movie_list/movie_list_view_model.dart';
 
 class MovieListScreen extends StatefulWidget {
@@ -38,20 +39,9 @@ class _MovieListScreenState extends State<MovieListScreen> {
               case Success<MovieInfo>(:final data):
                 return _getContentView(data);
               case Error(:final error):
-                return Center(
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      IconButton(
-                        onPressed: _viewModel.getMovies,
-                        icon: const Icon(Icons.refresh),
-                      ),
-                      Text(
-                        error,
-                        style: const TextStyle(color: Colors.red, fontSize: 20, fontWeight: FontWeight.bold),
-                      ),
-                    ],
-                  ),
+                return ErrorScreenWidget(
+                  error: error,
+                  callback: _viewModel.getMovies,
                 );
             }
           },
@@ -93,13 +83,13 @@ class _MovieListScreenState extends State<MovieListScreen> {
     return Padding(
       padding: const EdgeInsets.all(8.0),
       child: InkWell(
-        onTap: () => context.push(Uri(path: '/movie/detail', queryParameters: {'id': movie.id.toString()}).toString()),
+        onTap: () => context.push(Uri(path: '/movie/detail', queryParameters: { qpMovieId: movie.id.toString() }).toString()),
         child: Row(
           children: [
             ClipRRect(
               borderRadius: BorderRadius.circular(15.0),
               child: CachedNetworkImage(
-                imageUrl: 'https://image.tmdb.org/t/p/w200${movie.posterPath}',
+                imageUrl: movie.posterPath,
                 fit: BoxFit.cover,
                 width: 100,
                 height: 150,

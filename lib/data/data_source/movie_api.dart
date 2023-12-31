@@ -7,15 +7,11 @@ import 'package:orm_movie_db/data/dto/movie_dto.dart';
 import 'package:http/http.dart' as http;
 
 class MovieApi {
-  static const _movieMainUrl = 'https://api.themoviedb.org/3/movie/upcoming?api_key=a64533e7ece6c72731da47c9c8bc691f&language=ko-KR&page=';
-  static const _movieDetailUrlPrefix = 'https://api.themoviedb.org/3/movie/';
-  static const _movieDetailUrlSuffix = '?api_key=a64533e7ece6c72731da47c9c8bc691f&language=ko-KR';
-
   Future<Result<MovieDto>> getMovies(int page) async {
     Result<MovieDto> result;
 
     try {
-      final http.Response response = await http.get(Uri.parse('$_movieMainUrl$page'));
+      final http.Response response = await http.get(Uri.parse('$movieMainUrl$page'));
       if (response.statusCode == 200) {
         final MovieDto movieDto = MovieDto.fromJson(jsonDecode(response.body));
         result = Result.success(movieDto);
@@ -28,11 +24,11 @@ class MovieApi {
     return result;
   }
 
-  Future<Result<MovieDetailDto>> getMovieDetail(int movieId) async {
+  Future<Result<MovieDetailDto>> getMovieDetail(String movieId) async {
     Result<MovieDetailDto> result;
 
     try {
-      final http.Response response = await http.get(Uri.parse('$_movieDetailUrlPrefix$movieId$_movieDetailUrlSuffix'));
+      final http.Response response = await http.get(Uri.parse('$movieDetailUrlPrefix$movieId$movieDetailUrlSuffix'));
       if (response.statusCode == 200) {
         final MovieDetailDto movieDetailDto = MovieDetailDto.fromJson(jsonDecode(response.body));
 

@@ -1,3 +1,4 @@
+import 'package:orm_movie_db/common/constants.dart';
 import 'package:orm_movie_db/data/dto/movie_dto.dart';
 import 'package:orm_movie_db/data/model/movie_info.dart';
 
@@ -16,7 +17,7 @@ extension ResultMapperMovie on Results {
       id: id?.toInt() ?? -1,
       title: title ?? '',
       overview: overview ?? '',
-      posterPath: posterPath ?? '',
+      posterPath: posterPath != null ? '$imagePathSmall$posterPath' : '',
     );
   }
 }
