@@ -10,7 +10,7 @@ extension MovieDetailDtoMapperMovieDetail on MovieDetailDto {
       overview: overview?.isNotEmpty ?? false ? overview! : '영화 소개 정보가 없습니다',
       backdropPath: backdropPath != null ? '$imagePathLarge$backdropPath' : '',
       releaseDate: releaseDate ?? '',
-      status: _statusMap[status ?? ''] ?? ' - ',
+      status: statusMap[status ?? ''] ?? ' - ',
       genres: genres?.map((e) => e.name ?? '').toList() ?? [],
       adult: adult ?? false,
       /*
