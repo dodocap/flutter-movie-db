@@ -19,12 +19,5 @@ class MovieDetailViewModel {
     _isLoading.add(true);
     _movies = await _movieRepository.getMovieDetail(movieId);
     _isLoading.add(false);
-
-    switch (_movies) {
-      case Success<MovieDetail>(:final data):
-        break;
-      case Error<MovieDetail>():
-        break;
-    }
   }
 }

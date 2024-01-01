@@ -1,6 +1,6 @@
-/* 오류 메시지 */
 import 'package:flutter/material.dart';
 
+/* 오류 메시지 */
 const String errorNone = '';
 const String errorNetwork = '네트워크 통신에 실패했습니다';
 const String errorNotFoundImage = '이미지를 불러올 수 없습니다';

@@ -5,10 +5,10 @@ sealed class Result<T> {
 
 class Success<T> implements Result<T> {
   final T data;
-  Success(this.data);
+  const Success(this.data);
 }
 
 class Error<T> implements Result<T> {
   final String error;
-  Error(this.error);
+  const Error(this.error);
 }
