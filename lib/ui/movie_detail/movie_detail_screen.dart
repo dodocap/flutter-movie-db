@@ -7,6 +7,7 @@ import 'package:orm_movie_db/common/result.dart';
 import 'package:orm_movie_db/data/model/movie_detail.dart';
 import 'package:orm_movie_db/ui/common/error_screen_widget.dart';
 import 'package:orm_movie_db/ui/movie_detail/movie_detail_view_model.dart';
+import 'package:provider/provider.dart';
 
 class MovieDetailScreen extends StatefulWidget {
   final String movieId;
@@ -21,36 +22,33 @@ class MovieDetailScreen extends StatefulWidget {
 }
 
 class _MovieDetailScreenState extends State<MovieDetailScreen> {
-  final MovieDetailViewModel _viewModel = MovieDetailViewModel();
-
   @override
   void initState() {
-    _viewModel.getMovieDetail(widget.movieId);
+    Future.microtask(() => context.read<MovieDetailViewModel>().getMovieDetail(widget.movieId));
     super.initState();
   }
 
   @override
   Widget build(BuildContext context) {
+    final MovieDetailViewModel viewModel = context.watch();
     return Scaffold(
-      body: StreamBuilder<bool>(
-          initialData: false,
-          stream: _viewModel.isLoading,
-          builder: (context, snapshot) {
-            if (snapshot.data!) {
-              return const Center(child: CircularProgressIndicator());
-            }
-
-            switch (_viewModel.movies) {
-              case Success<MovieDetail>(:final data):
-                return _getContentView(data);
-              case Error(:final error):
-                return ErrorScreenWidget(
-                  error: error,
-                  callback: () => _viewModel.getMovieDetail(widget.movieId),
-                );
-            }
-          }),
+      body: viewModel.isLoading ?
+        const Center(child: CircularProgressIndicator())
+        : _getResultView(),
     );
+  }
+
+  Widget _getResultView() {
+    final MovieDetailViewModel viewModel = context.read();
+    switch (viewModel.movies) {
+      case Success<MovieDetail>(:final data):
+        return _getContentView(data);
+      case Error(:final error):
+        return ErrorScreenWidget(
+          error: error,
+          callback: () => viewModel.getMovieDetail(widget.movieId),
+        );
+    }
   }
 
   Widget _getContentView(MovieDetail movieDetail) {

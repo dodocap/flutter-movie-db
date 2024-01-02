@@ -21,7 +21,7 @@ final routes = GoRouter(
             path: 'detail',
             builder: (_, state) {
               return ChangeNotifierProvider(
-                create: (_) => MovieDetailViewModel(),
+                create: (_) => MovieDetailViewModel(movieRepository: MovieRepositoryImpl()),
                 child: MovieDetailScreen(movieId: state.uri.queryParameters[qpMovieId]!),
               );
             },
