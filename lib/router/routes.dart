@@ -1,5 +1,6 @@
 import 'package:go_router/go_router.dart';
 import 'package:orm_movie_db/common/constants.dart';
+import 'package:orm_movie_db/data/repository/movie_repository_impl.dart';
 import 'package:orm_movie_db/ui/movie_detail/movie_detail_screen.dart';
 import 'package:orm_movie_db/ui/movie_detail/movie_detail_view_model.dart';
 import 'package:orm_movie_db/ui/movie_list/movie_list_screen.dart';
@@ -12,7 +13,7 @@ final routes = GoRouter(
     GoRoute(
         path: '/movie',
         builder: (_, __) => ChangeNotifierProvider(
-              create: (_) => MovieListViewModel(),
+              create: (_) => MovieListViewModel(movieRepository: MovieRepositoryImpl()),
               child: const MovieListScreen(),
             ),
         routes: [

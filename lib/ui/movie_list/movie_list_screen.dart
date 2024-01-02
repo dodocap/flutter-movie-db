@@ -6,6 +6,7 @@ import 'package:orm_movie_db/common/result.dart';
 import 'package:orm_movie_db/data/model/movie_info.dart';
 import 'package:orm_movie_db/ui/common/error_screen_widget.dart';
 import 'package:orm_movie_db/ui/movie_list/movie_list_view_model.dart';
+import 'package:provider/provider.dart';
 
 class MovieListScreen extends StatefulWidget {
   const MovieListScreen({super.key});
@@ -15,39 +16,36 @@ class MovieListScreen extends StatefulWidget {
 }
 
 class _MovieListScreenState extends State<MovieListScreen> {
-  final MovieListViewModel _viewModel = MovieListViewModel();
-
   @override
   void initState() {
-    _viewModel.getMovies();
+    Future.microtask(() => context.read<MovieListViewModel>().getMovies());
+
     super.initState();
   }
 
   @override
   Widget build(BuildContext context) {
+    final MovieListViewModel viewModel = context.watch();
     return Scaffold(
       body: SafeArea(
-        child: StreamBuilder<bool>(
-          initialData: false,
-          stream: _viewModel.isLoading,
-          builder: (context, snapshot) {
-            if (snapshot.data!) {
-              return const Center(child: CircularProgressIndicator());
-            }
-
-            switch (_viewModel.movies) {
-              case Success<MovieInfo>(:final data):
-                return _getContentView(data);
-              case Error(:final error):
-                return ErrorScreenWidget(
-                  error: error,
-                  callback: _viewModel.getMovies,
-                );
-            }
-          },
-        ),
+        child: viewModel.isLoading
+            ? const Center(child: CircularProgressIndicator())
+            : _getResultView()
       ),
     );
+  }
+
+  Widget _getResultView() {
+    final MovieListViewModel viewModel = context.read();
+    switch (viewModel.movies) {
+      case Success<MovieInfo>(:final data):
+        return _getContentView(data);
+      case Error(:final error):
+        return ErrorScreenWidget(
+            error: error,
+            callback: viewModel.getMovies
+        );
+    }
   }
 
   Widget _getContentView(MovieInfo movieInfo) {
@@ -71,7 +69,7 @@ class _MovieListScreenState extends State<MovieListScreen> {
               buttonsToShow: 9,
               onPressed: (page) {
                 if (movieInfo.page != page) {
-                  _viewModel.getMovies(page);
+                  context.read<MovieListViewModel>().getMovies(page);
                 }
               },
             )),
