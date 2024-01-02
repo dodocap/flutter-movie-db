@@ -1,12 +1,13 @@
 import 'dart:async';
 
+import 'package:flutter/material.dart';
 import 'package:orm_movie_db/common/constants.dart';
 import 'package:orm_movie_db/common/result.dart';
 import 'package:orm_movie_db/data/model/movie_info.dart';
 import 'package:orm_movie_db/data/repository/movie_repository.dart';
 import 'package:orm_movie_db/data/repository/movie_repository_impl.dart';
 
-class MovieListViewModel {
+class MovieListViewModel extends ChangeNotifier {
   final MovieRepository _movieRepository = MovieRepositoryImpl();
 
   final StreamController<bool> _isLoading = StreamController();
