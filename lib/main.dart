@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:orm_movie_db/di/di_setup.dart';
 import 'package:orm_movie_db/router/routes.dart';
 
 void main() {
+  diSetup();
   runApp(const MyApp());
 }
 
