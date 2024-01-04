@@ -43,9 +43,9 @@ class _MovieDetailScreenState extends State<MovieDetailScreen> {
     switch (viewModel.movies) {
       case Success<MovieDetail>(:final data):
         return _getContentView(data);
-      case Error(:final error):
+      case Error(:final e):
         return ErrorScreenWidget(
-          error: error,
+          error: e,
           callback: () => viewModel.getMovieDetail(widget.movieId),
         );
     }

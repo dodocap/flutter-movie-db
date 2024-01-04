@@ -20,8 +20,8 @@ class MovieRepositoryImpl implements MovieRepository {
       case Success<MovieDto>(:final data):
         result = Result.success(data.mapToMovieInfo());
         break;
-      case Error<MovieDto>(:final error):
-        result = Result.error(error);
+      case Error<MovieDto>(:final e):
+        result = Result.error(e);
         break;
     }
 
@@ -37,8 +37,8 @@ class MovieRepositoryImpl implements MovieRepository {
       case Success<MovieDetailDto>(:final data):
         result = Result.success(data.mapToMovieDetail());
         break;
-      case Error(:final error):
-        result = Result.error(error);
+      case Error(:final e):
+        result = Result.error(e);
         break;
     }
 
