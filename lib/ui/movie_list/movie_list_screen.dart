@@ -1,7 +1,10 @@
+import 'dart:async';
+
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:orm_movie_db/common/constants.dart';
+import 'package:orm_movie_db/common/ui_event.dart';
 import 'package:orm_movie_db/data/model/movie.dart';
 import 'package:orm_movie_db/data/model/movie_info.dart';
 import 'package:orm_movie_db/ui/movie_list/movie_list_state.dart';
@@ -16,11 +19,28 @@ class MovieListScreen extends StatefulWidget {
 }
 
 class _MovieListScreenState extends State<MovieListScreen> {
+  StreamSubscription? _uiEventSubscription;
+
   @override
   void initState() {
-    Future.microtask(() => context.read<MovieListViewModel>().getMovies());
+    Future.microtask(() {
+      final viewModel = context.read<MovieListViewModel>();
+      _uiEventSubscription = viewModel.eventStream.listen((event) {
+        switch (event) {
+          case ShowSnackBar():
+            ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text(event.msg)));
+        }
+      });
+      viewModel.getMovies();
+    });
 
     super.initState();
+  }
+
+  @override
+  void dispose() {
+    _uiEventSubscription?.cancel();
+    super.dispose();
   }
 
   @override
@@ -38,7 +58,20 @@ class _MovieListScreenState extends State<MovieListScreen> {
 
   Widget _getContentView(MovieInfo movieInfo) {
     final List<Movie> movieList = movieInfo.movieList;
-    return Column(
+    return movieList.isEmpty
+    ? Center(
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          TextButton.icon(
+              onPressed: context.read<MovieListViewModel>().getMovies,
+              icon: const Icon(Icons.refresh),
+              label: const Text('새로고침'),
+            ),
+        ],
+      ),
+    )
+    : Column(
       children: [
         Expanded(
           child: ListView.builder(
@@ -60,7 +93,8 @@ class _MovieListScreenState extends State<MovieListScreen> {
                   context.read<MovieListViewModel>().getMovies(page);
                 }
               },
-            )),
+            ),
+        ),
       ],
     );
   }

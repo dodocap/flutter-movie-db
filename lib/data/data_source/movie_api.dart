@@ -19,7 +19,7 @@ class MovieApi {
         result = Result.error('$errorNetwork: ErrorCode(${response.statusCode})');
       }
     } catch (e) {
-      result = Result.error('$errorNetwork\n$e');
+      result = const Result.error(errorNetwork);
     }
     return result;
   }
@@ -37,7 +37,7 @@ class MovieApi {
         result = Result.error('$errorNetwork: ErrorCode(${response.statusCode})');
       }
     } catch (e) {
-      result = Result.error('$errorNetwork\n$e');
+      result = const Result.error(errorNetwork);
     }
     return result;
   }

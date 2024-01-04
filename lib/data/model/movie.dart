@@ -16,22 +16,3 @@ class Movie with _$Movie {
 
   factory Movie.fromJson(Map<String, Object?> json) => _$MovieFromJson(json);
 }
-/*
-class Movie {
-  final int id;
-  final String title;
-  final String overview;
-  final String posterPath;
-
-  Movie({
-    required this.id,
-    required this.title,
-    required this.overview,
-    required this.posterPath,
-  });
-
-  @override
-  String toString() {
-    return 'Movie{id: $id, title: $title, overview: $overview, posterPath: $posterPath}';
-  }
-}*/

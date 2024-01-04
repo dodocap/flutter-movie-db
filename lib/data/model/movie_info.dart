@@ -16,20 +16,3 @@ class MovieInfo with _$MovieInfo {
 
   factory MovieInfo.fromJson(Map<String, Object?> json) => _$MovieInfoFromJson(json);
 }
-/*
-class MovieInfo {
-  int totalPages;
-  int page;
-  List<Movie> movieList;
-
-  MovieInfo({
-    required this.totalPages,
-    required this.page,
-    required this.movieList,
-  });
-
-  @override
-  String toString() {
-    return 'MovieInfo{page: $page, movieList: $movieList}';
-  }
-}*/
