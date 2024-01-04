@@ -1,9 +1,12 @@
+import 'dart:async';
+
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:go_router/go_router.dart';
 import 'package:orm_movie_db/common/constants.dart';
 import 'package:orm_movie_db/common/result.dart';
+import 'package:orm_movie_db/common/ui_event.dart';
 import 'package:orm_movie_db/data/model/movie_detail.dart';
 import 'package:orm_movie_db/ui/common/error_screen_widget.dart';
 import 'package:orm_movie_db/ui/movie_detail/movie_detail_view_model.dart';
@@ -22,33 +25,39 @@ class MovieDetailScreen extends StatefulWidget {
 }
 
 class _MovieDetailScreenState extends State<MovieDetailScreen> {
+  StreamSubscription? _uiEventSubscription;
+
   @override
   void initState() {
-    Future.microtask(() => context.read<MovieDetailViewModel>().getMovieDetail(widget.movieId));
+    Future.microtask(() {
+      final viewModel = context.read<MovieDetailViewModel>();
+      _uiEventSubscription = viewModel.eventStream.listen((event) {
+        switch (event) {
+          case ShowSnackBar():
+            ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text(event.msg)));
+        }
+      });
+      viewModel.getMovieDetail(widget.movieId);
+    });
     super.initState();
+  }
+
+  @override
+  void dispose() {
+    _uiEventSubscription?.cancel();
+    super.dispose();
   }
 
   @override
   Widget build(BuildContext context) {
     final MovieDetailViewModel viewModel = context.watch();
-    return Scaffold(
-      body: viewModel.isLoading ?
-        const Center(child: CircularProgressIndicator())
-        : _getResultView(),
-    );
-  }
+    final state = viewModel.state;
 
-  Widget _getResultView() {
-    final MovieDetailViewModel viewModel = context.read();
-    switch (viewModel.movies) {
-      case Success<MovieDetail>(:final data):
-        return _getContentView(data);
-      case Error(:final e):
-        return ErrorScreenWidget(
-          error: e,
-          callback: () => viewModel.getMovieDetail(widget.movieId),
-        );
-    }
+    return Scaffold(
+      body: state.isLoading ?
+        const Center(child: CircularProgressIndicator())
+        : _getContentView(state.movieDetail),
+    );
   }
 
   Widget _getContentView(MovieDetail movieDetail) {
