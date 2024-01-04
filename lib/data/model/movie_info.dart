@@ -1,9 +1,26 @@
+import 'package:freezed_annotation/freezed_annotation.dart';
+import 'package:flutter/foundation.dart';
+import 'package:orm_movie_db/data/model/movie.dart';
+
+part 'movie_info.freezed.dart';
+
+part 'movie_info.g.dart';
+
+@freezed
+class MovieInfo with _$MovieInfo {
+  const factory MovieInfo({
+    @Default(0) int totalPages,
+    @Default(0) int page,
+    @Default([]) List<Movie> movieList,
+  }) = _MovieInfo;
+
+  factory MovieInfo.fromJson(Map<String, Object?> json) => _$MovieInfoFromJson(json);
+}
+/*
 class MovieInfo {
   int totalPages;
   int page;
   List<Movie> movieList;
-
-  // MovieInfo({this.totalPages = 0, this.page = 0, this.movieList = const []});
 
   MovieInfo({
     required this.totalPages,
@@ -15,23 +32,4 @@ class MovieInfo {
   String toString() {
     return 'MovieInfo{page: $page, movieList: $movieList}';
   }
-}
-
-class Movie {
-  final int id;
-  final String title;
-  final String overview;
-  final String posterPath;
-
-  Movie({
-    required this.id,
-    required this.title,
-    required this.overview,
-    required this.posterPath,
-  });
-
-  @override
-  String toString() {
-    return 'Movie{id: $id, title: $title, overview: $overview, posterPath: $posterPath}';
-  }
-}
+}*/

@@ -5,24 +5,26 @@ import 'package:orm_movie_db/common/constants.dart';
 import 'package:orm_movie_db/common/result.dart';
 import 'package:orm_movie_db/data/model/movie_info.dart';
 import 'package:orm_movie_db/data/repository/movie_repository.dart';
+import 'package:orm_movie_db/ui/movie_list/movie_list_state.dart';
 
 class MovieListViewModel extends ChangeNotifier {
   final MovieRepository _movieRepository;
 
   MovieListViewModel({required MovieRepository movieRepository}) : _movieRepository = movieRepository;
 
-  bool _isLoading = false;
-  bool get isLoading => _isLoading;
-
-  Result<MovieInfo> _movies = Result.error(errorNone);
-  Result<MovieInfo> get movies => _movies;
+  MovieListState _state = const MovieListState();
+  MovieListState get state => _state;
 
   Future<void> getMovies([int page = 1]) async {
-    _isLoading = true;
+    _state = _state.copyWith(isLoading: true);
     notifyListeners();
 
-    _movies = await _movieRepository.getMovies(page);
-    _isLoading = false;
+    (await _movieRepository.getMovies(page)).when(
+      success: (data) => _state = _state.copyWith(isLoading: false, movieInfo: data),
+      error: (e) {
+        _state = _state.copyWith(isLoading: false, movieInfo: const MovieInfo());
+      },
+    );
     notifyListeners();
   }
 }

@@ -1,5 +1,6 @@
 import 'package:orm_movie_db/common/constants.dart';
 import 'package:orm_movie_db/data/dto/movie_dto.dart';
+import 'package:orm_movie_db/data/model/movie.dart';
 import 'package:orm_movie_db/data/model/movie_info.dart';
 
 extension MovieDtoMapperMovieInfo on MovieDto {

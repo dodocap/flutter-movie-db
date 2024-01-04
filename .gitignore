@@ -1,3 +1,5 @@
+Flutter gitignore
+
 # Created by https://www.toptal.com/developers/gitignore/api/flutter,android,androidstudio,xcode
 # Edit at https://www.toptal.com/developers/gitignore?templates=flutter,android,androidstudio,xcode
 
@@ -139,6 +141,10 @@ xcuserdata/
 bin/
 gen/
 out/
+
+# Generated build_runner files
+*.g.dart
+*.freezed.dart
 
 # Gradle files
 .gradle

@@ -2,9 +2,9 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:orm_movie_db/common/constants.dart';
-import 'package:orm_movie_db/common/result.dart';
+import 'package:orm_movie_db/data/model/movie.dart';
 import 'package:orm_movie_db/data/model/movie_info.dart';
-import 'package:orm_movie_db/ui/common/error_screen_widget.dart';
+import 'package:orm_movie_db/ui/movie_list/movie_list_state.dart';
 import 'package:orm_movie_db/ui/movie_list/movie_list_view_model.dart';
 import 'package:provider/provider.dart';
 
@@ -26,26 +26,14 @@ class _MovieListScreenState extends State<MovieListScreen> {
   @override
   Widget build(BuildContext context) {
     final MovieListViewModel viewModel = context.watch();
+    final MovieListState state = viewModel.state;
     return Scaffold(
       body: SafeArea(
-        child: viewModel.isLoading
+        child: state.isLoading
             ? const Center(child: CircularProgressIndicator())
-            : _getResultView()
+            : _getContentView(state.movieInfo)
       ),
     );
-  }
-
-  Widget _getResultView() {
-    final MovieListViewModel viewModel = context.read();
-    switch (viewModel.movies) {
-      case Success<MovieInfo>(:final data):
-        return _getContentView(data);
-      case Error(:final e):
-        return ErrorScreenWidget(
-            error: e,
-            callback: viewModel.getMovies
-        );
-    }
   }
 
   Widget _getContentView(MovieInfo movieInfo) {
