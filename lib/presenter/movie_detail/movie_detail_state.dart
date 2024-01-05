@@ -1,5 +1,5 @@
 import 'package:freezed_annotation/freezed_annotation.dart';
-import 'package:orm_movie_db/data/model/movie_detail.dart';
+import 'package:orm_movie_db/domain/model/movie_detail.dart';
 
 part 'movie_detail_state.freezed.dart';
 part 'movie_detail_state.g.dart';

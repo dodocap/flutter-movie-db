@@ -5,10 +5,10 @@ import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:orm_movie_db/common/constants.dart';
 import 'package:orm_movie_db/common/ui_event.dart';
-import 'package:orm_movie_db/data/model/movie.dart';
-import 'package:orm_movie_db/data/model/movie_info.dart';
-import 'package:orm_movie_db/ui/movie_list/movie_list_state.dart';
-import 'package:orm_movie_db/ui/movie_list/movie_list_view_model.dart';
+import 'package:orm_movie_db/domain/model/movie.dart';
+import 'package:orm_movie_db/domain/model/movie_info.dart';
+import 'package:orm_movie_db/presenter/movie_list/movie_list_state.dart';
+import 'package:orm_movie_db/presenter/movie_list/movie_list_view_model.dart';
 import 'package:provider/provider.dart';
 
 class MovieListScreen extends StatefulWidget {

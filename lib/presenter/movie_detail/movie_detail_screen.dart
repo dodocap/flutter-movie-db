@@ -5,11 +5,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:go_router/go_router.dart';
 import 'package:orm_movie_db/common/constants.dart';
-import 'package:orm_movie_db/common/result.dart';
 import 'package:orm_movie_db/common/ui_event.dart';
-import 'package:orm_movie_db/data/model/movie_detail.dart';
-import 'package:orm_movie_db/ui/common/error_screen_widget.dart';
-import 'package:orm_movie_db/ui/movie_detail/movie_detail_view_model.dart';
+import 'package:orm_movie_db/domain/model/movie_detail.dart';
+import 'package:orm_movie_db/presenter/movie_detail/movie_detail_view_model.dart';
 import 'package:provider/provider.dart';
 
 class MovieDetailScreen extends StatefulWidget {

@@ -1,6 +1,6 @@
 import 'package:orm_movie_db/common/constants.dart';
 import 'package:orm_movie_db/data/dto/movie_detail_dto.dart';
-import 'package:orm_movie_db/data/model/movie_detail.dart';
+import 'package:orm_movie_db/domain/model/movie_detail.dart';
 
 extension MovieDetailDtoMapperMovieDetail on MovieDetailDto {
   MovieDetail mapToMovieDetail() {

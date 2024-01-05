@@ -2,13 +2,14 @@ import 'dart:async';
 
 import 'package:flutter/material.dart';
 import 'package:orm_movie_db/common/ui_event.dart';
-import 'package:orm_movie_db/data/repository/movie_repository.dart';
-import 'package:orm_movie_db/ui/movie_detail/movie_detail_state.dart';
+import 'package:orm_movie_db/domain/repository/movie_repository.dart';
+import 'package:orm_movie_db/domain/use_case/get_movie_by_id_use_case.dart';
+import 'package:orm_movie_db/presenter/movie_detail/movie_detail_state.dart';
 
 class MovieDetailViewModel extends ChangeNotifier {
-  final MovieRepository _movieRepository;
+  final GetMovieByIdUseCase _getMovieByIdUseCase;
+  MovieDetailViewModel({required GetMovieByIdUseCase getMovieByIdUseCase}) : _getMovieByIdUseCase = getMovieByIdUseCase;
 
-  MovieDetailViewModel({required MovieRepository movieRepository}) : _movieRepository = movieRepository;
 
   MovieDetailState _state = const MovieDetailState();
   MovieDetailState get state => _state;
@@ -20,7 +21,7 @@ class MovieDetailViewModel extends ChangeNotifier {
     _state = _state.copyWith(isLoading: true);
     notifyListeners();
 
-    (await _movieRepository.getMovieDetail(movieId)).when(
+    (await _getMovieByIdUseCase.execute(movieId)).when(
       success: (data) {
         _state = _state.copyWith(isLoading: false, movieDetail: data);
       },

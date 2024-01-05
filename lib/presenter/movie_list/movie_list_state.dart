@@ -1,6 +1,6 @@
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:flutter/foundation.dart';
-import 'package:orm_movie_db/data/model/movie_info.dart';
+import 'package:orm_movie_db/domain/model/movie_info.dart';
 
 part 'movie_list_state.freezed.dart';
 

@@ -4,9 +4,9 @@ import 'package:orm_movie_db/data/dto/movie_detail_dto.dart';
 import 'package:orm_movie_db/data/dto/movie_dto.dart';
 import 'package:orm_movie_db/data/mapper/movie_detail_mapper.dart';
 import 'package:orm_movie_db/data/mapper/movie_mapper.dart';
-import 'package:orm_movie_db/data/model/movie_detail.dart';
-import 'package:orm_movie_db/data/model/movie_info.dart';
-import 'package:orm_movie_db/data/repository/movie_repository.dart';
+import 'package:orm_movie_db/domain/model/movie_detail.dart';
+import 'package:orm_movie_db/domain/model/movie_info.dart';
+import 'package:orm_movie_db/domain/repository/movie_repository.dart';
 
 class MovieRepositoryImpl implements MovieRepository {
   final MovieApi _movieApi = MovieApi();

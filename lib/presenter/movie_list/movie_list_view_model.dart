@@ -1,19 +1,17 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
-import 'package:orm_movie_db/common/constants.dart';
-import 'package:orm_movie_db/common/result.dart';
 import 'package:orm_movie_db/common/ui_event.dart';
-import 'package:orm_movie_db/data/model/movie_info.dart';
-import 'package:orm_movie_db/data/repository/movie_repository.dart';
-import 'package:orm_movie_db/ui/movie_list/movie_list_state.dart';
+import 'package:orm_movie_db/domain/model/movie_info.dart';
+import 'package:orm_movie_db/domain/use_case/get_movie_list_use_case.dart';
+import 'package:orm_movie_db/presenter/movie_list/movie_list_state.dart';
 
 class MovieListViewModel extends ChangeNotifier {
-  final MovieRepository _movieRepository;
-
-  MovieListViewModel({required MovieRepository movieRepository}) : _movieRepository = movieRepository;
+  final GetMovieListUseCase _getMovieListUseCase;
+  MovieListViewModel({required GetMovieListUseCase getMovieListUseCase}) : _getMovieListUseCase = getMovieListUseCase;
 
   MovieListState _state = const MovieListState();
+
   MovieListState get state => _state;
 
   final StreamController<UiEvent> _eventController = StreamController();
@@ -23,7 +21,7 @@ class MovieListViewModel extends ChangeNotifier {
     _state = _state.copyWith(isLoading: true);
     notifyListeners();
 
-    (await _movieRepository.getMovies(page)).when(
+    (await _getMovieListUseCase.execute(page)).when(
       success: (data) => _state = _state.copyWith(isLoading: false, movieInfo: data),
       error: (e) {
         _state = _state.copyWith(isLoading: false, movieInfo: const MovieInfo());
